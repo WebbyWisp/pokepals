@@ -10,14 +10,14 @@
       "preLaunchTask": "npm: watch"
     },
     {
-      "name": "Extension Tests",
-      "type": "extensionHost",
+      "name": "Run Vitest",
+      "type": "node",
       "request": "launch",
-      "args": [
-        "--extensionDevelopmentPath=${workspaceFolder}",
-        "--extensionTestsPath=${workspaceFolder}/out/test/suite/index"
-      ],
-      "outFiles": ["${workspaceFolder}/dist/test/**/*.js"],
+      "program": "${workspaceFolder}/node_modules/vitest/vitest.mjs",
+      "args": ["run"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "cwd": "${workspaceFolder}",
       "preLaunchTask": "npm: pretest"
     }
   ]

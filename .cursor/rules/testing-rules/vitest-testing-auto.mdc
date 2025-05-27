@@ -1,0 +1,98 @@
+---
+description: 
+globs: *.test.ts, *.spec.ts, src/test/**/*.ts
+alwaysApply: false
+---
+---
+description: 
+globs: *.test.ts, *.spec.ts, src/test/**/*.ts
+alwaysApply: false
+---
+
+# Vitest Testing Standards for VS Code Extension
+
+## Critical Rules
+
+- **Use Vitest globals**: Import `describe`, `it`, `expect`, `beforeEach`, `afterEach` from `vitest`
+- **Mock VS Code APIs**: Use `jest-mock-vscode` library for comprehensive VS Code API mocking
+- **Import vscode directly**: Simply `import vscode from 'vscode'` - it will automatically use the mock
+- **Test file naming**: Use `.test.ts` or `.spec.ts` suffixes for test files
+- **Test organization**: Group related tests in `describe` blocks with clear descriptions
+- **Setup/teardown**: Use `beforeEach`/`afterEach` for test isolation
+- **Async testing**: Use `async/await` for testing async functionality
+- **Type safety**: Maintain TypeScript types in tests, leverage the professional mock's type safety
+- **Coverage**: Write tests for core functionality, especially Pokemon models and game state management
+- **Clear assertions**: Use descriptive expect statements that clearly communicate test intent
+- **Test isolation**: Each test should be independent and not rely on other tests
+
+## Examples
+
+<example>
+  **Proper Vitest test structure with VS Code API mocking:**
+  
+  ```typescript
+  import { describe, it, expect, beforeEach } from 'vitest';
+  import { Pokemon, PokemonSpecies } from '../models/Pokemon';
+  import * as vscode from 'vscode'; // Automatically uses jest-mock-vscode
+  
+  describe('Pokemon Model Tests', () => {
+    let testSpecies: PokemonSpecies;
+  
+    beforeEach(() => {
+      testSpecies = {
+        id: 25,
+        name: 'Pikachu',
+        types: ['Electric'],
+        rarity: 'common',
+        baseStats: { hp: 35, attack: 55, /* ... */ },
+        biomes: ['forest'],
+        spriteUrl: 'pikachu.png'
+      };
+    });
+  
+    it('should create Pokemon with correct initial values', () => {
+      const pokemon = new Pokemon(testSpecies, 'Sparky');
+      
+      expect(pokemon.nickname).toBe('Sparky');
+      expect(pokemon.stats.level).toBe(1);
+      expect(pokemon.id).toBeDefined();
+    });
+  
+    it('should work with VS Code APIs', async () => {
+      // VS Code APIs are automatically mocked
+      const config = vscode.workspace.getConfiguration('pokepals');
+      expect(config).toBeDefined();
+      
+      await vscode.window.showInformationMessage('Test');
+      expect(vscode.window.showInformationMessage).toHaveBeenCalled();
+    });
+  });
+  ```
+</example>
+
+<example type="invalid">
+  **Incorrect test patterns:**
+  
+  ```typescript
+  // ❌ Using Mocha/Jest syntax instead of Vitest
+  import { describe, it } from 'mocha';
+  
+  // ❌ Creating custom VS Code mocks instead of using jest-mock-vscode
+  const mockVscode = { commands: { registerCommand: vi.fn() } };
+  
+  // ❌ Trying to access global.vscode instead of importing
+  expect((global as any).vscode).toBeDefined();
+  
+  // ❌ Tests that depend on each other
+  it('should set pokemon level to 5', () => {
+    pokemon.stats.level = 5; // Modifies shared state
+  });
+  
+  it('should have level 5', () => {
+    expect(pokemon.stats.level).toBe(5); // Depends on previous test
+  });
+  
+  // ❌ Testing private methods directly
+  expect(pokemon.calculateExperienceToNext(2)).toBeGreaterThan(100);
+  ```
+</example>

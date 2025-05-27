@@ -1,76 +1,79 @@
-import * as vscode from "vscode";
-import { GameManager } from "../core/GameManager";
+import * as vscode from 'vscode'
+import type { GameManager } from '../core/GameManager'
 
 export class SidebarProvider implements vscode.WebviewViewProvider {
-  public static readonly viewType = "pokepals.sidebar";
-  private _view?: vscode.WebviewView;
-  private gameManager: GameManager;
+  public static readonly viewType = 'pokepals.sidebar'
+  private _view?: vscode.WebviewView
+  private gameManager: GameManager
 
   constructor(
     private readonly _extensionUri: vscode.Uri,
     gameManager: GameManager
   ) {
-    this.gameManager = gameManager;
-    console.log("SidebarProvider constructor called");
+    this.gameManager = gameManager
+    console.log('SidebarProvider constructor called')
   }
 
   public resolveWebviewView(
     webviewView: vscode.WebviewView,
     context: vscode.WebviewViewResolveContext,
-    _token: vscode.CancellationToken
-  ) {
-    console.log("SidebarProvider.resolveWebviewView called");
-    this._view = webviewView;
+    token: vscode.CancellationToken
+  ): void {
+    // Note: context and token parameters are required by the WebviewViewProvider interface
+    // but are not currently used in this implementation
+    void context // Explicitly void unused parameter
+    void token // Explicitly void unused parameter
+    this._view = webviewView
 
     webviewView.webview.options = {
       enableScripts: true,
-      localResourceRoots: [this._extensionUri],
-    };
+      localResourceRoots: [this._extensionUri]
+    }
 
-    webviewView.webview.html = this._getHtmlForWebview(webviewView.webview);
+    webviewView.webview.html = this._getHtmlForWebview(webviewView.webview)
 
     // Handle messages from the webview
     webviewView.webview.onDidReceiveMessage((data) => {
       switch (data.type) {
-        case "interact":
-          this.handlePokemonInteraction();
-          break;
-        case "feed":
-          this.handleFeedPokemon();
-          break;
-        case "play":
-          this.handlePlayWithPokemon();
-          break;
+        case 'interact':
+          this.handlePokemonInteraction()
+          break
+        case 'feed':
+          this.handleFeedPokemon()
+          break
+        case 'play':
+          this.handlePlayWithPokemon()
+          break
       }
-    });
+    })
 
     // Update webview when game state changes
-    this.startUpdating();
+    this.startUpdating()
   }
 
   private startUpdating(): void {
     // Update every 5 seconds
     setInterval(() => {
       if (this._view) {
-        this.updateWebview();
+        this.updateWebview()
       }
-    }, 5000);
+    }, 5000)
 
     // Initial update
-    this.updateWebview();
+    this.updateWebview()
   }
 
   private updateWebview(): void {
     if (!this._view) {
-      return;
+      return
     }
 
-    const gameState = this.gameManager.getGameState();
-    const activePokemon = gameState.getActivePokemon();
+    const gameState = this.gameManager.getGameState()
+    const activePokemon = gameState.getActivePokemon()
 
     if (activePokemon) {
       this._view.webview.postMessage({
-        type: "update",
+        type: 'update',
         pokemon: {
           name: activePokemon.getDisplayName(),
           level: activePokemon.stats.level,
@@ -79,75 +82,59 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           experience: activePokemon.stats.experience,
           experienceToNext: activePokemon.stats.experienceToNext,
           mood: activePokemon.mood,
-          sprite: activePokemon.species.name.toLowerCase(),
+          sprite: activePokemon.species.name.toLowerCase()
         },
         player: {
           crystals: gameState.player.stats.totalCodeCrystals,
-          totalPokemon: gameState.getTotalPokemonCount(),
+          totalPokemon: gameState.getTotalPokemonCount()
         },
-        biome: gameState.currentBiome,
-      });
+        biome: gameState.currentBiome
+      })
     }
   }
 
   private handlePokemonInteraction(): void {
-    const gameState = this.gameManager.getGameState();
-    const activePokemon = gameState.getActivePokemon();
+    const gameState = this.gameManager.getGameState()
+    const activePokemon = gameState.getActivePokemon()
 
     if (activePokemon) {
-      activePokemon.increaseFriendship(2);
-      activePokemon.stats.happiness = Math.min(
-        100,
-        activePokemon.stats.happiness + 5
-      );
-      vscode.window.showInformationMessage(
-        `${activePokemon.getDisplayName()} enjoyed the interaction! 💖`
-      );
-      this.updateWebview();
+      activePokemon.increaseFriendship(2)
+      activePokemon.stats.happiness = Math.min(100, activePokemon.stats.happiness + 5)
+      vscode.window.showInformationMessage(`${activePokemon.getDisplayName()} enjoyed the interaction! 💖`)
+      this.updateWebview()
     }
   }
 
   private handleFeedPokemon(): void {
-    const gameState = this.gameManager.getGameState();
-    const activePokemon = gameState.getActivePokemon();
+    const gameState = this.gameManager.getGameState()
+    const activePokemon = gameState.getActivePokemon()
 
     if (activePokemon && gameState.player.stats.totalCodeCrystals >= 10) {
-      gameState.player.spendCodeCrystals(10);
-      activePokemon.stats.happiness = Math.min(
-        100,
-        activePokemon.stats.happiness + 15
-      );
-      activePokemon.increaseFriendship(3);
-      vscode.window.showInformationMessage(
-        `${activePokemon.getDisplayName()} loved the treat! 🍎`
-      );
-      this.updateWebview();
+      gameState.player.spendCodeCrystals(10)
+      activePokemon.stats.happiness = Math.min(100, activePokemon.stats.happiness + 15)
+      activePokemon.increaseFriendship(3)
+      vscode.window.showInformationMessage(`${activePokemon.getDisplayName()} loved the treat! 🍎`)
+      this.updateWebview()
     } else {
-      vscode.window.showWarningMessage(
-        "Not enough Code Crystals! You need 10 crystals to feed your Pokémon."
-      );
+      vscode.window.showWarningMessage('Not enough Code Crystals! You need 10 crystals to feed your Pokémon.')
     }
   }
 
   private handlePlayWithPokemon(): void {
-    const gameState = this.gameManager.getGameState();
-    const activePokemon = gameState.getActivePokemon();
+    const gameState = this.gameManager.getGameState()
+    const activePokemon = gameState.getActivePokemon()
 
     if (activePokemon) {
-      activePokemon.increaseFriendship(1);
-      activePokemon.stats.happiness = Math.min(
-        100,
-        activePokemon.stats.happiness + 3
-      );
-      activePokemon.gainExperience(5);
-      vscode.window.showInformationMessage(
-        `${activePokemon.getDisplayName()} had fun playing! 🎮`
-      );
-      this.updateWebview();
+      activePokemon.increaseFriendship(1)
+      activePokemon.stats.happiness = Math.min(100, activePokemon.stats.happiness + 3)
+      activePokemon.gainExperience(5)
+      vscode.window.showInformationMessage(`${activePokemon.getDisplayName()} had fun playing! 🎮`)
+      this.updateWebview()
     }
   }
 
-  private _getHtmlForWebview(webview: vscode.Webview): string {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  private _getHtmlForWebview(_webview: vscode.Webview): string {
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -504,7 +491,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         vscode.postMessage({ type: 'ready' });
     </script>
 </body>
-</html>`;
+</html>`
   }
 
   public dispose(): void {

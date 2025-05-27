@@ -40,10 +40,6 @@
     "terminal.integrated.defaultProfile.linux": "zsh"
   },
   "extensions": {
-    "recommendations": [
-      "dbaeumer.vscode-eslint",
-      "esbenp.prettier-vscode",
-      "gruntfuggly.todo-tree"
-    ]
+    "recommendations": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode", "gruntfuggly.todo-tree"]
   }
 }

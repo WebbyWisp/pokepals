@@ -7,19 +7,9 @@
   "engines": {
     "vscode": "^1.74.0"
   },
-  "categories": [
-    "Other"
-  ],
-  "keywords": [
-    "pokemon",
-    "companion",
-    "tamagotchi",
-    "productivity",
-    "fun"
-  ],
-  "activationEvents": [
-    "onStartupFinished"
-  ],
+  "categories": ["Other"],
+  "keywords": ["pokemon", "companion", "tamagotchi", "productivity", "fun"],
+  "activationEvents": ["onStartupFinished"],
   "main": "./dist/extension.js",
   "contributes": {
     "views": {
@@ -78,20 +68,32 @@
     "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile && npm run lint",
-    "lint": "eslint src --ext ts",
-    "test": "node ./dist/test/runTest.js"
+    "prettier-check": "prettier --check .",
+    "prettier-fix": "prettier --write .",
+    "eslint-check": "eslint .",
+    "eslint-fix": "eslint --fix .",
+    "lint": "npm run prettier-check && npm run eslint-check",
+    "lint:fix": "npm run prettier-fix && npm run eslint-fix",
+    "test": "vitest run --coverage",
+    "test:watch": "vitest watch"
   },
   "devDependencies": {
+    "@eslint/js": "^9.27.0",
+    "@eslint/json": "^0.8.0",
+    "@eslint/markdown": "^6.2.1",
+    "@types/eslint-config-prettier": "^6.11.3",
+    "@types/node": "^22.15.21",
     "@types/vscode": "^1.74.0",
-    "@types/node": "18.x",
-    "@typescript-eslint/eslint-plugin": "^5.45.0",
-    "@typescript-eslint/parser": "^5.45.0",
-    "eslint": "^8.28.0",
-    "glob": "^8.0.3",
-    "mocha": "^10.1.0",
-    "typescript": "^4.9.4",
-    "@vscode/test-electron": "^2.2.0"
-  },
-  "dependencies": {}
-};
+    "@typescript-eslint/eslint-plugin": "^8.32.1",
+    "@typescript-eslint/parser": "^8.32.1",
+    "@vscode/test-electron": "^2.2.0",
+    "eslint": "^9.27.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.4.0",
+    "jest-mock-vscode": "^4.4.0",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.32.1",
+    "vitest": "^2.1.9"
+  }
+}
