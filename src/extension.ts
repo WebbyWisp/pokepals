@@ -1,9 +1,11 @@
 import * as vscode from "vscode";
 import { GameManager } from "./core/GameManager";
+import { SidebarProvider } from "./ui/SidebarProvider";
 import { StatusBarProvider } from "./ui/StatusBarProvider";
 
 let gameManager: GameManager;
 let statusBarProvider: StatusBarProvider;
+let sidebarProvider: SidebarProvider;
 
 export async function activate(context: vscode.ExtensionContext) {
   console.log("Pokémon Pals extension is activating...");
@@ -13,8 +15,18 @@ export async function activate(context: vscode.ExtensionContext) {
     gameManager = GameManager.getInstance(context);
     await gameManager.initialize();
 
+    await vscode.commands.executeCommand("setContext", "pokepals.active", true);
+
     // Initialize UI
     statusBarProvider = new StatusBarProvider(gameManager);
+    sidebarProvider = new SidebarProvider(context.extensionUri, gameManager);
+
+    // Register webview provider
+    const provider = vscode.window.registerWebviewViewProvider(
+      SidebarProvider.viewType,
+      sidebarProvider
+    );
+    context.subscriptions.push(provider);
 
     // Register commands
     registerCommands(context);
@@ -126,6 +138,10 @@ export function deactivate() {
   // Clean up resources
   if (statusBarProvider) {
     statusBarProvider.dispose();
+  }
+
+  if (sidebarProvider) {
+    sidebarProvider.dispose();
   }
 
   if (gameManager) {

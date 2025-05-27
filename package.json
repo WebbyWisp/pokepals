@@ -25,9 +25,9 @@
     "views": {
       "explorer": [
         {
+          "type": "webview",
           "id": "pokepals.sidebar",
-          "name": "Pokémon Pals",
-          "when": "pokepals.active"
+          "name": "Pokémon Pals"
         }
       ]
     },
@@ -40,6 +40,11 @@
       {
         "command": "pokepals.resetGame",
         "title": "Reset Game",
+        "category": "Pokémon Pals"
+      },
+      {
+        "command": "pokepals.saveGame",
+        "title": "Save Game",
         "category": "Pokémon Pals"
       }
     ],
