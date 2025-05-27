@@ -1,0 +1,60 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+# Roadmap Management During Development
+
+## Critical Rules
+
+- **Always update ROADMAP.md** when completing tasks or making significant progress on roadmap items
+- **Check current phase** before implementing new features to ensure alignment with development timeline
+- **Update task status** by changing `[ ]` to `[x]` for completed roadmap items
+- **Reference roadmap phases** in commit messages when completing phase deliverables
+- **Maintain roadmap accuracy** by adjusting timelines if development pace differs from original estimates
+- **Document phase completion** with milestone checkpoint updates when all phase tasks are finished
+- **Cross-reference README.md** roadmap overview when making changes to ensure consistency
+- **Add new tasks** to appropriate phases when scope changes or new requirements emerge
+- **Preserve phase structure** - do not reorganize phases without careful consideration of dependencies
+- **Update risk mitigation** notes when encountering and resolving development challenges
+
+## Examples
+
+<example>
+  **Completing a Phase 1 task:**
+  
+  1. Mark the task complete in ROADMAP.md:
+     ```diff
+     - [ ] Extension scaffold and basic structure
+     + [x] Extension scaffold and basic structure
+     ```
+  
+  2. Commit with phase reference:
+     ```
+     feat: complete extension scaffold structure (Phase 1)
+     
+     - Set up TypeScript project structure
+     - Configured package.json and tsconfig
+     - Added basic extension entry point
+     
+     Roadmap: Phase 1 - Foundation
+     ```
+  
+  3. Check if phase milestone is reached and update checkpoint status
+</example>
+
+<example type="invalid">
+  **Implementing features without roadmap awareness:**
+  
+  ❌ Adding biome system in Phase 1 without updating roadmap
+  ❌ Completing tasks without marking them done in ROADMAP.md
+  ❌ Making timeline changes without updating milestone dates
+  ❌ Implementing features not listed in current phase without justification
+  ❌ Ignoring phase dependencies (e.g., trying to add wild encounters before activity tracking)
+</example>
