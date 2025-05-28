@@ -1,0 +1,169 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Pokémon Sprite Animation System
+
+## Critical Rules
+
+- **AnimData.xml Structure**: Each Pokémon folder contains an AnimData.xml file that defines all animations with frame dimensions, counts, and timing
+- **Sprite Sheet Format**: Animation frames are arranged horizontally in PNG files named `{AnimationName}-Anim.png`
+- **Frame Positioning**: Use CSS `background-position` with negative X offsets to show specific frames: `-(frameIndex * frameWidth)px 0px`
+- **Animation Timing**: Duration values in XML are game ticks - multiply by 100ms for reasonable web timing
+- **Resource URIs**: Use `webview.asWebviewUri()` to properly load sprite images in VS Code webviews
+- **Coordinate System**: Sprites use pixel-perfect positioning with `image-rendering: pixelated` for crisp display
+- **Animation States**: Map game states (idle, happy, sad, eating, attacking) to appropriate sprite animations
+- **Performance**: Use `setInterval` at 60fps (16ms) for smooth animation updates, but only update DOM when frames change
+- **File Cleanup**: Remove `-Offsets.png` and `-Shadow.png` files as they're not needed for this implementation
+- **Fallback Handling**: Always provide fallback animations and error handling for missing sprite data
+
+## Animation Data Structure
+
+### AnimData.xml Format
+```xml
+<Anim>
+  <Name>Idle</Name>
+  <Index>7</Index>
+  <FrameWidth>32</FrameWidth>
+  <FrameHeight>56</FrameHeight>
+  <Durations>
+    <Duration>40</Duration>
+    <Duration>1</Duration>
+    <!-- ... more durations for each frame -->
+  </Durations>
+</Anim>
+```
+
+### JavaScript Animation Object
+```javascript
+const animationData = {
+  'Idle': {
+    frameWidth: 32,
+    frameHeight: 56,
+    frameCount: 7, // Number of Duration entries
+    durations: [40, 1, 2, 4, 2, 2, 1]
+  }
+}
+```
+
+## Implementation Pattern
+
+### CSS Sprite Display
+```css
+.pokemon-sprite {
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+```
+
+### Frame Update Function
+```javascript
+function updateSpriteDisplay() {
+  const animation = animationData[currentAnimation];
+  const sprite = document.getElementById('pokemonSprite');
+  const xOffset = -(currentFrame * animation.frameWidth);
+  
+  sprite.style.width = animation.frameWidth + 'px';
+  sprite.style.height = animation.frameHeight + 'px';
+  sprite.style.backgroundImage = `url('${spriteBasePath}/${currentAnimation}-Anim.png')`;
+  sprite.style.backgroundPosition = `${xOffset}px 0px`;
+  sprite.style.backgroundSize = `${animation.frameWidth * animation.frameCount}px ${animation.frameHeight}px`;
+}
+```
+
+### Animation Loop
+```javascript
+function updateAnimation() {
+  const deltaTime = Date.now() - lastUpdateTime;
+  frameTimer += deltaTime;
+  
+  const frameDuration = animation.durations[currentFrame] * 100; // 100ms per tick
+  
+  if (frameTimer >= frameDuration) {
+    currentFrame = (currentFrame + 1) % animation.frameCount;
+    frameTimer = 0;
+    updateSpriteDisplay();
+  }
+}
+```
+
+## File Structure
+
+### Assets Organization
+```
+src/assets/
+├── sneasel/
+│   ├── AnimData.xml
+│   ├── Idle-Anim.png
+│   ├── Walk-Anim.png
+│   ├── Attack-Anim.png
+│   └── ... (other animations)
+└── {other-pokemon}/
+    └── ... (same structure)
+```
+
+### Integration Points
+- **SidebarProvider**: Main webview that displays the animated sprite
+- **PokemonSprite**: TypeScript class for managing animation state
+- **GameManager**: Triggers animation changes based on game events
+- **Webview Resources**: Configure `localResourceRoots` to include assets folder
+
+## Animation Mapping
+
+### Game State to Animation
+- **Idle**: Default state, breathing/blinking animation
+- **Happy/Excited**: Use filter effects (brightness, saturation) on idle
+- **Sad**: Grayscale filter with different animation or slower timing
+- **Interaction**: Brief attack or special animation, return to idle
+- **Feeding**: Eat animation, return to idle
+- **Playing**: Walk or hop animation, return to idle
+
+### Mood Effects
+```css
+.pokemon-sprite.happy { filter: brightness(1.1); }
+.pokemon-sprite.excited { filter: brightness(1.2) saturate(1.2); }
+.pokemon-sprite.sad { filter: grayscale(0.3) brightness(0.8); }
+```
+
+## Examples
+
+<example>
+  **Proper sprite sheet implementation:**
+  
+  1. Parse AnimData.xml to get frame dimensions and timing
+  2. Set up CSS with pixelated rendering
+  3. Use background-position to show specific frames
+  4. Implement smooth animation loop with proper timing
+  5. Map game events to appropriate animations
+  6. Handle resource loading with webview URIs
+  
+  ```typescript
+  // In SidebarProvider
+  webviewView.webview.options = {
+    enableScripts: true,
+    localResourceRoots: [
+      this._extensionUri,
+      vscode.Uri.joinPath(this._extensionUri, 'src', 'assets')
+    ]
+  }
+  
+  // In webview HTML
+  window.spriteBasePath = '${webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'src', 'assets', 'sneasel'))}';
+  ```
+</example>
+
+<example type="invalid">
+  **Common mistakes to avoid:**
+  
+  ❌ Using emoji or CSS-drawn sprites instead of actual sprite sheets
+  ❌ Incorrect frame positioning (positive offsets, wrong calculations)
+  ❌ Not setting background-size, causing stretched sprites
+  ❌ Using file:// URLs instead of webview URIs
+  ❌ Ignoring image-rendering for pixelated display
+  ❌ Animation timing too fast (using raw tick values)
+  ❌ Not handling missing animations or sprite files
+  ❌ Keeping offset and shadow files that aren't needed
+</example>

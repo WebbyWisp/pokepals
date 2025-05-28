@@ -136,3 +136,4 @@ dist
 .pnp.*
 
 personal*
+.DS_Store

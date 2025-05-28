@@ -24,7 +24,16 @@
     "rootDir": "src",
     "types": ["node", "vscode", "vitest/globals"]
   },
-  "exclude": ["node_modules", ".vscode-test", "coverage", "dist", "vitest.config.ts"],
+  "exclude": [
+    "node_modules",
+    ".vscode-test",
+    "coverage",
+    "dist",
+    "vitest.config.ts",
+    "eslint.config.mjs",
+    "prettier.config.mjs",
+    "__mocks__"
+  ],
   "watchOptions": {
     "excludeDirectories": ["dist", "tmp"]
   }
