@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-eval' 'unsafe-inline'; img-src vscode-resource: https: data:;"
+    />
+    <title>Pokémon Pals</title>
+    <style>
+      /* VS Code Theme Integration */
+      :root {
+        --vscode-font-family: var(--vscode-font-family, -apple-system, BlinkMacSystemFont, sans-serif);
+        --primary-color: var(--vscode-textLink-foreground);
+        --background-color: var(--vscode-editor-background);
+        --text-color: var(--vscode-foreground);
+        --border-color: var(--vscode-widget-border);
+        --button-background: var(--vscode-button-background);
+        --button-foreground: var(--vscode-button-foreground);
+        --button-hover: var(--vscode-button-hoverBackground);
+        --progress-background: var(--vscode-progressBar-background);
+        --progress-foreground: var(--vscode-progressBar-foreground);
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: var(--vscode-font-family);
+        color: var(--text-color);
+        background-color: var(--background-color);
+        overflow-x: hidden;
+      }
+
+      /* Pixel art rendering */
+      * {
+        image-rendering: pixelated;
+        image-rendering: -moz-crisp-edges;
+        image-rendering: crisp-edges;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/main.ts"></script>
+  </body>
+</html>

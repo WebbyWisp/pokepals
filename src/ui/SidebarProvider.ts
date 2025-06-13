@@ -552,76 +552,95 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
                 return 10000 + Math.random() * 20000; // 10-30 seconds
             }
             
-            playAnimation(animationName, options = {}) {
-                if (!this.animationData[animationName]) return false;
-                
-                const animation = this.animationData[animationName];
-                const currentPriority = this.animationData[this.currentAnimation]?.priority || 0;
-                
-                // Check if we can interrupt current animation
-                if (currentPriority > animation.priority && !options.force) {
-                    return false;
-                }
-                
-                this.currentAnimation = animationName;
-                this.currentFrame = 0;
-                this.frameTimer = 0;
-                this.updateSpriteDisplay();
-                
-                // Set up return to idle if specified
-                if (animation.returnToIdle) {
-                    const totalDuration = animation.durations.reduce((sum, duration) => sum + duration, 0) * 100;
-                    const repeatCount = animation.repeatCount || 1;
-                    
-                    setTimeout(() => {
-                        if (this.currentAnimation === animationName) {
-                            this.playAnimation('Idle');
-                        }
-                    }, totalDuration * repeatCount);
-                }
-                
-                return true;
-            }
+                         playAnimation(animationName, options = {}) {
+                 if (!this.animationData[animationName]) return false;
+                 
+                 const animation = this.animationData[animationName];
+                 const currentPriority = this.animationData[this.currentAnimation]?.priority || 0;
+                 
+                 // Check if we can interrupt current animation
+                 if (currentPriority > animation.priority && !options.force) {
+                     return false;
+                 }
+                 
+                 // Stop movement if switching away from walk animation
+                 if (this.currentAnimation === 'Walk' && animationName !== 'Walk') {
+                     this.stopMovement();
+                 }
+                 
+                 this.currentAnimation = animationName;
+                 this.currentFrame = 0;
+                 this.frameTimer = 0;
+                 this.updateSpriteDisplay();
+                 
+                 // Set up return to idle if specified
+                 if (animation.returnToIdle) {
+                     const totalDuration = animation.durations.reduce((sum, duration) => sum + duration, 0) * 100;
+                     const repeatCount = animation.repeatCount || 1;
+                     
+                     setTimeout(() => {
+                         if (this.currentAnimation === animationName) {
+                             this.playAnimation('Idle');
+                         }
+                     }, totalDuration * repeatCount);
+                 }
+                 
+                 return true;
+             }
+             
+             stopMovement() {
+                 if (this.isMoving) {
+                     this.isMoving = false;
+                     // Reset sprite flip to normal
+                     const sprite = document.getElementById('pokemonSprite');
+                     if (sprite) {
+                         sprite.style.transform = 'translateX(-50%)';
+                     }
+                 }
+             }
             
-            startWalking() {
-                if (this.isMoving) return;
-                
-                this.isMoving = true;
-                this.movementDirection = Math.random() < 0.5 ? 1 : -1;
-                this.playAnimation('Walk');
-                
-                // Walk for 2-5 seconds
-                const walkDuration = 2000 + Math.random() * 3000;
-                
-                const walkInterval = setInterval(() => {
-                    this.position += this.movementDirection * 0.5;
-                    
-                    // Bounce off edges
-                    if (this.position <= 10) {
-                        this.position = 10;
-                        this.movementDirection = 1;
-                    } else if (this.position >= 90) {
-                        this.position = 90;
-                        this.movementDirection = -1;
-                    }
-                    
-                    const sprite = document.getElementById('pokemonSprite');
-                    sprite.style.left = this.position + '%';
-                    
-                    // Flip sprite based on direction
-                    sprite.style.transform = \`translateX(-50%) scaleX(\${this.movementDirection})\`;
-                }, 50);
-                
-                setTimeout(() => {
-                    clearInterval(walkInterval);
-                    this.isMoving = false;
-                    this.playAnimation('Idle');
-                    
-                    // Reset sprite flip
-                    const sprite = document.getElementById('pokemonSprite');
-                    sprite.style.transform = 'translateX(-50%)';
-                }, walkDuration);
-            }
+                         startWalking() {
+                 if (this.isMoving) return;
+                 
+                 this.isMoving = true;
+                 this.movementDirection = Math.random() < 0.5 ? 1 : -1;
+                 this.playAnimation('Walk');
+                 
+                 // Walk for 2-5 seconds
+                 const walkDuration = 2000 + Math.random() * 3000;
+                 
+                 const walkInterval = setInterval(() => {
+                     // Only move if currently walking animation
+                     if (this.currentAnimation === 'Walk') {
+                         this.position += this.movementDirection * 0.5;
+                         
+                         // Bounce off edges
+                         if (this.position <= 10) {
+                             this.position = 10;
+                             this.movementDirection = 1;
+                         } else if (this.position >= 90) {
+                             this.position = 90;
+                             this.movementDirection = -1;
+                         }
+                         
+                         const sprite = document.getElementById('pokemonSprite');
+                         sprite.style.left = this.position + '%';
+                         
+                         // Flip sprite based on direction
+                         sprite.style.transform = \`translateX(-50%) scaleX(\${this.movementDirection})\`;
+                     }
+                 }, 50);
+                 
+                 setTimeout(() => {
+                     clearInterval(walkInterval);
+                     this.isMoving = false;
+                     this.playAnimation('Idle');
+                     
+                     // Reset sprite flip and ensure it stays in current position
+                     const sprite = document.getElementById('pokemonSprite');
+                     sprite.style.transform = 'translateX(-50%)';
+                 }, walkDuration);
+             }
             
                          goToSleep() {
                  this.sleeping = true;

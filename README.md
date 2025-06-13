@@ -216,3 +216,172 @@ This extension will be developed with community input and feedback. Key areas fo
 ---
 
 _Let's make coding a more delightful and companionable experience, one Pokémon at a time! 🌟_
+
+## 🚀 Current Status
+
+**Phase 3 Complete + Vue 3 Migration In Progress**
+
+- ✅ **Core Gameplay**: Full Pokemon companion system with stats, leveling, and interactions
+- ✅ **Advanced Animations**: Complete sprite animation system with walking, sitting, sleeping
+- ✅ **Activity Tracking**: XP gain from coding activities (typing, saving, file creation)
+- ✅ **Visual Polish**: Pixel-art sprites, background scenes, theme integration
+- 🚧 **Vue 3 Migration**: Modern frontend architecture (Phase 1 complete)
+
+## 🎮 How to Use
+
+### Installation & Setup
+
+```bash
+# Use correct Node version
+nvm use
+
+# Install dependencies
+npm install
+
+# Build the extension
+npm run compile
+
+# Build Vue webview (for Vue 3 version)
+npm run build:webview
+```
+
+### Running the Extension
+
+1. Open this project in VS Code
+2. Press `F5` to launch Extension Development Host
+3. Look for the Pokémon Pals panel in the Explorer sidebar
+4. Start coding to earn XP and Code Crystals!
+
+### Interactions
+
+- **Pet** 🤗: Increase happiness and friendship
+- **Feed** 🍎: Spend 10 Code Crystals to boost happiness significantly
+- **Play** 🎮: Interactive play session for XP and happiness
+- **Sit** 💺: Make your Pokémon sit down
+- **Lay** 😴: Make your Pokémon lay down for a rest
+- **Sleep** 🌙: Put your Pokémon to sleep
+
+## 🏗️ Architecture
+
+### Current Implementation (Stable)
+
+- **Extension Core**: TypeScript-based VS Code extension
+- **Game Logic**: Complete Pokemon, Player, and GameState management
+- **UI**: HTML-in-TypeScript webview with advanced animation system
+- **Persistence**: JSON-based save system with backup
+
+### Vue 3 Migration (In Progress)
+
+- **Frontend**: Vue 3 + TypeScript + Vite
+- **State Management**: Pinia stores for reactive state
+- **Components**: Modular Vue components for better maintainability
+- **Build System**: Vite for fast development and optimized builds
+
+## 📁 Project Structure
+
+```
+pokepals/
+├── src/
+│   ├── core/                   # Game logic and state management
+│   │   ├── GameManager.ts      # Main game controller
+│   │   ├── GameState.ts        # Game state management
+│   │   ├── Pokemon.ts          # Pokemon class and logic
+│   │   ├── Player.ts           # Player progress and stats
+│   │   └── SaveManager.ts      # Save/load functionality
+│   ├── ui/                     # UI providers
+│   │   ├── SidebarProvider.ts  # Current HTML-based UI
+│   │   ├── VueSidebarProvider.ts # New Vue-based UI
+│   │   ├── StatusBarProvider.ts # Status bar integration
+│   │   └── PokemonSprite.ts    # Sprite management
+│   ├── webview/               # Vue 3 application
+│   │   ├── components/        # Vue components
+│   │   ├── stores/           # Pinia state management
+│   │   ├── composables/      # Reusable Vue logic
+│   │   └── types/           # TypeScript definitions
+│   ├── assets/              # Pokemon sprites and backgrounds
+│   └── extension.ts         # Extension entry point
+├── dist/                    # Built extension and webview
+├── docs/                    # Documentation
+└── tests/                   # Test files
+```
+
+## 🎯 Development Roadmap
+
+### ✅ Completed Phases
+
+- **Phase 1**: Foundation & Core Systems
+- **Phase 2**: Activity Tracking & Gameplay Mechanics
+- **Phase 3**: Visual Polish & Advanced Animations
+- **Vue Migration Phase 1**: Build pipeline and component structure
+
+### 🚧 Current Work
+
+- **Vue Migration Phase 2**: Animation system and sprite rendering
+- **Vue Migration Phase 3**: Full feature parity and testing
+
+### 📋 Upcoming
+
+- **Phase 4**: Wild Encounters & Collection System
+- **Phase 5**: Advanced Features & Polish
+- **Phase 6**: Release Preparation
+
+See [ROADMAP.md](ROADMAP.md) for detailed development timeline.
+
+## 🧪 Development
+
+### Scripts
+
+```bash
+# Extension development
+npm run compile          # Build TypeScript extension
+npm run watch           # Watch mode for extension development
+
+# Vue webview development
+npm run build:webview   # Build Vue application
+npm run dev:webview     # Vue development server with hot reload
+
+# Code quality
+npm run lint            # Run ESLint and Prettier checks
+npm run lint:fix        # Auto-fix linting issues
+npm run test            # Run test suite
+```
+
+### Vue 3 Migration
+
+The project is currently migrating to Vue 3 for better maintainability and developer experience:
+
+- **Current**: HTML-in-TypeScript with manual DOM manipulation
+- **Target**: Vue 3 components with reactive state management
+- **Benefits**: Hot reload, component architecture, better testing, type safety
+
+See [VUE_MIGRATION.md](VUE_MIGRATION.md) for complete migration documentation.
+
+## 🎨 Assets
+
+- **Pokemon Sprites**: Pixel-art sprite sheets with multiple animations
+- **Backgrounds**: Cozy pixel-art scenes for different biomes
+- **Animations**: Idle, Walk, Sit, Sleep, Attack, Eat, Pose, Wake, Hurt
+
+## 🤝 Contributing
+
+This is currently a personal project, but contributions and feedback are welcome!
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## 📄 License
+
+MIT License - see [LICENSE](LICENSE) for details.
+
+## 🙏 Acknowledgments
+
+- Pokémon sprites and assets are used for educational/personal use
+- Inspired by Tamagotchi and virtual pet games
+- Built with love for the VS Code developer community
+
+---
+
+**Happy coding with your Pokémon companion!** 🐾✨

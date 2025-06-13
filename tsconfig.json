@@ -32,7 +32,8 @@
     "vitest.config.ts",
     "eslint.config.mjs",
     "prettier.config.mjs",
-    "__mocks__"
+    "__mocks__",
+    "src/webview"
   ],
   "watchOptions": {
     "excludeDirectories": ["dist", "tmp"]
