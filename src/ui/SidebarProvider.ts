@@ -155,9 +155,10 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         }
 
         .pokemon-container {
-            min-height: 300px;
+            width: 300px;
+            height: 300px;
             border-radius: 12px;
-            margin-bottom: 16px;
+            margin: 0 auto 16px auto;
             position: relative;
             overflow: hidden;
             background: linear-gradient(to bottom, #87CEEB 0%, #98E4FF 50%, #90EE90 100%);
@@ -170,156 +171,21 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         .scene {
             position: relative;
             width: 100%;
-            height: 300px;
+            height: 100%;
             overflow: hidden;
-        }
-
-        /* Sky gradient with clouds */
-        .sky {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 60%;
-            background: linear-gradient(to bottom, #87CEEB 0%, #B0E0E6 50%, #F0F8FF 100%);
-        }
-
-        /* Pixel art clouds */
-        .cloud {
-            position: absolute;
-            width: 40px;
-            height: 20px;
-            background: white;
-            border-radius: 20px;
-            opacity: 0.8;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .cloud:before {
-            content: '';
-            position: absolute;
-            top: -10px;
-            left: 8px;
-            width: 24px;
-            height: 24px;
-            background: white;
-            border-radius: 50%;
-        }
-
-        .cloud:after {
-            content: '';
-            position: absolute;
-            top: -6px;
-            right: 6px;
-            width: 16px;
-            height: 16px;
-            background: white;
-            border-radius: 50%;
-        }
-
-        .cloud1 { top: 20px; left: 10%; animation-delay: 0s; }
-        .cloud2 { top: 40px; right: 15%; animation-delay: -2s; }
-        .cloud3 { top: 15px; left: 60%; animation-delay: -4s; }
-
-        /* Ground with pixel grass pattern */
-        .ground {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 40%;
-            background: linear-gradient(to bottom, #90EE90 0%, #228B22 50%, #006400 100%);
-        }
-
-        /* Grass blades using CSS */
-        .grass {
-            position: absolute;
-            bottom: 30%;
-            width: 100%;
-            height: 20px;
-            background-image: 
-                linear-gradient(90deg, transparent 0px, transparent 3px, #32CD32 3px, #32CD32 4px, transparent 4px, transparent 8px),
-                linear-gradient(90deg, transparent 2px, transparent 5px, #228B22 5px, #228B22 6px, transparent 6px, transparent 10px),
-                linear-gradient(90deg, transparent 6px, transparent 9px, #32CD32 9px, #32CD32 10px, transparent 10px, transparent 14px);
-            background-size: 12px 100%;
-            animation: grassSway 3s ease-in-out infinite;
-        }
-
-        /* Pixel trees */
-        .tree {
-            position: absolute;
-            bottom: 25%;
-        }
-
-        .tree-trunk {
-            width: 8px;
-            height: 30px;
-            background: #8B4513;
-            margin: 0 auto;
-        }
-
-        .tree-leaves {
-            width: 24px;
-            height: 24px;
-            background: #228B22;
-            border-radius: 50%;
-            position: relative;
-            top: -12px;
-            left: -8px;
-        }
-
-        .tree1 { left: 5%; }
-        .tree2 { right: 8%; }
-
-        /* Small cozy house */
-        .house {
-            position: absolute;
-            bottom: 30%;
-            right: 20%;
-            width: 40px;
-            height: 30px;
-        }
-
-        .house-base {
-            width: 100%;
-            height: 20px;
-            background: #DEB887;
-            border: 1px solid #CD853F;
-        }
-
-        .house-roof {
-            width: 0;
-            height: 0;
-            border-left: 20px solid transparent;
-            border-right: 20px solid transparent;
-            border-bottom: 15px solid #DC143C;
-            position: relative;
-            top: -5px;
-        }
-
-        .house-door {
-            width: 8px;
-            height: 12px;
-            background: #8B4513;
-            position: absolute;
-            bottom: 0;
-            left: 16px;
-        }
-
-        .house-window {
-            width: 6px;
-            height: 6px;
-            background: #87CEEB;
-            border: 1px solid #4682B4;
-            position: absolute;
-            top: 4px;
-            left: 6px;
+            background-image: url('${webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'src', 'assets', 'background.png'))}');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
         }
 
         /* Pokémon sprite sheet */
         .pokemon-sprite {
             position: absolute;
-            bottom: 35%;
+            bottom: 15%;
             left: 50%;
             transform: translateX(-50%);
             cursor: pointer;
@@ -347,78 +213,27 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
             filter: grayscale(0.3) brightness(0.8);
         }
 
-        /* Biome variations */
-        .biome-forest .sky {
-            background: linear-gradient(to bottom, #4169E1 0%, #87CEEB 50%, #F0F8FF 100%);
-        }
-
-        .biome-forest .ground {
-            background: linear-gradient(to bottom, #228B22 0%, #006400 50%, #004225 100%);
-        }
-
-        .biome-laboratory .sky {
-            background: linear-gradient(to bottom, #9370DB 0%, #BA55D3 50%, #DDA0DD 100%);
-        }
-
-        .biome-laboratory .ground {
-            background: linear-gradient(to bottom, #C0C0C0 0%, #808080 50%, #696969 100%);
-        }
-
-        .biome-library .sky {
-            background: linear-gradient(to bottom, #DAA520 0%, #FFD700 50%, #FFFACD 100%);
-        }
-
-        .biome-library .ground {
-            background: linear-gradient(to bottom, #D2B48C 0%, #CD853F 50%, #A0522D 100%);
-        }
-
-        .biome-cave .sky {
-            background: linear-gradient(to bottom, #2F4F4F 0%, #696969 50%, #A9A9A9 100%);
-        }
-
-        .biome-cave .ground {
-            background: linear-gradient(to bottom, #696969 0%, #2F4F4F 50%, #191970 100%);
-        }
-
-        /* Animations */
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        @keyframes grassSway {
-            0%, 100% { transform: scaleX(1); }
-            50% { transform: scaleX(1.1); }
-        }
-
-        /* Pokemon info overlay */
+        /* Pokemon info moved below image */
         .pokemon-info {
-            position: absolute;
-            bottom: 10px;
-            left: 50%;
-            transform: translateX(-50%);
             text-align: center;
-            z-index: 15;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: var(--vscode-editor-background);
+            border-radius: 8px;
+            border: 1px solid var(--vscode-widget-border);
         }
 
         .pokemon-name {
-            font-size: 16px;
+            font-size: 18px;
             font-weight: bold;
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            color: var(--vscode-textLink-foreground);
             margin-bottom: 4px;
-            background: rgba(0,0,0,0.3);
-            padding: 4px 8px;
-            border-radius: 12px;
         }
 
         .pokemon-level {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.9);
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-            background: rgba(0,0,0,0.3);
-            padding: 2px 6px;
-            border-radius: 8px;
+            font-size: 14px;
+            color: var(--vscode-foreground);
+            opacity: 0.8;
         }
 
         .stats-container {
@@ -525,46 +340,15 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         <div class="biome-indicator" id="biomeIndicator">Forest</div>
         
         <div class="scene">
-            <!-- Sky with clouds -->
-            <div class="sky">
-                <div class="cloud cloud1"></div>
-                <div class="cloud cloud2"></div>
-                <div class="cloud cloud3"></div>
-            </div>
-            
-            <!-- Ground -->
-            <div class="ground">
-                <div class="grass"></div>
-            </div>
-            
-            <!-- Trees -->
-            <div class="tree tree1">
-                <div class="tree-leaves"></div>
-                <div class="tree-trunk"></div>
-            </div>
-            <div class="tree tree2">
-                <div class="tree-leaves"></div>
-                <div class="tree-trunk"></div>
-            </div>
-            
-            <!-- Cozy house -->
-            <div class="house">
-                <div class="house-roof"></div>
-                <div class="house-base">
-                    <div class="house-window"></div>
-                    <div class="house-door"></div>
-                </div>
-            </div>
-            
             <!-- Pokémon Sprite -->
             <div class="pokemon-sprite" id="pokemonSprite" onclick="interactWithPokemon()"></div>
-            
-            <!-- Pokemon info overlay -->
-            <div class="pokemon-info">
-                <div class="pokemon-name" id="pokemonName">Pikachu</div>
-                <div class="pokemon-level" id="pokemonLevel">Level 1</div>
-            </div>
         </div>
+    </div>
+
+    <!-- Pokemon info moved below image -->
+    <div class="pokemon-info">
+        <div class="pokemon-name" id="pokemonName">Pikachu</div>
+        <div class="pokemon-level" id="pokemonLevel">Level 1</div>
     </div>
 
     <div class="stats-container">
@@ -597,6 +381,9 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         <button onclick="interactWithPokemon()">Pet 🤗</button>
         <button onclick="feedPokemon()" id="feedButton">Feed 🍎 (10💎)</button>
         <button onclick="playWithPokemon()">Play 🎮</button>
+        <button onclick="makePokemonSit()">Sit 💺</button>
+        <button onclick="makePokemonLay()">Lay 😴</button>
+        <button onclick="makePokemonSleep()">Sleep 🌙</button>
     </div>
 
     <div class="crystals">
@@ -607,139 +394,388 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     <script>
         const vscode = acquireVsCodeApi();
         
-        // Set the sprite base path
-        window.spriteBasePath = '${webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'src', 'assets', 'sneasel'))}';
+        // Generic Pokemon Animation System
+        class PokemonAnimationSystem {
+            constructor(pokemonName = 'sneasel') {
+                this.pokemonName = pokemonName.toLowerCase();
+                this.spriteBasePath = '${webview.asWebviewUri(vscode.Uri.joinPath(this._extensionUri, 'src', 'assets', 'sneasel'))}';
+                
+                // Animation state
+                this.currentAnimation = 'Idle';
+                this.currentFrame = 0;
+                this.frameTimer = 0;
+                this.lastUpdateTime = Date.now();
+                this.isMoving = false;
+                this.movementDirection = 1; // 1 = right, -1 = left
+                this.position = 50; // percentage from left
+                this.sleeping = false;
+                this.sitting = false;
+                this.autoAnimationTimer = 0;
+                this.nextAutoAnimation = this.getRandomIdleTime();
+                
+                // Load animation data for current Pokemon
+                this.loadAnimationData();
+                
+                // Start automatic behaviors
+                this.startAutomaticBehaviors();
+            }
+            
+                         loadAnimationData() {
+                 // Animation data based on actual Sneasel AnimData.xml
+                 this.animationData = {
+                     'Idle': {
+                         frameWidth: 32,
+                         frameHeight: 56,
+                         frameCount: 7,
+                         durations: [40, 1, 2, 4, 2, 2, 1],
+                         direction: 0, // Front-facing direction
+                         loop: true,
+                         priority: 1
+                     },
+                     'Walk': {
+                         frameWidth: 32,
+                         frameHeight: 48,
+                         frameCount: 4,
+                         durations: [8, 10, 8, 10],
+                         direction: 0,
+                         loop: true,
+                         priority: 2
+                     },
+                     'Sleep': {
+                         frameWidth: 24,
+                         frameHeight: 40,
+                         frameCount: 2,
+                         durations: [30, 35],
+                         direction: 0,
+                         loop: true,
+                         priority: 3
+                     },
+                     'Sit': {
+                         frameWidth: 32,
+                         frameHeight: 40,
+                         frameCount: 3,
+                         durations: [8, 8, 8],
+                         direction: 0,
+                         loop: true,
+                         priority: 2
+                     },
+                     'Laying': {
+                         frameWidth: 24,
+                         frameHeight: 32,
+                         frameCount: 1,
+                         durations: [12],
+                         direction: 0,
+                         loop: true,
+                         priority: 2
+                     },
+                     'Attack': {
+                         frameWidth: 72,
+                         frameHeight: 80,
+                         frameCount: 10,
+                         durations: [2, 6, 1, 1, 1, 2, 2, 2, 2, 2],
+                         direction: 0,
+                         loop: false,
+                         priority: 5,
+                         returnToIdle: true
+                     },
+                     'Eat': {
+                         frameWidth: 32,
+                         frameHeight: 40,
+                         frameCount: 4,
+                         durations: [6, 8, 6, 8],
+                         direction: 0,
+                         loop: false,
+                         priority: 4,
+                         returnToIdle: true,
+                         repeatCount: 3
+                     },
+                     'Pose': {
+                         frameWidth: 32,
+                         frameHeight: 48,
+                         frameCount: 3,
+                         durations: [12, 2, 8],
+                         direction: 0,
+                         loop: false,
+                         priority: 3,
+                         returnToIdle: true
+                     },
+                     'Wake': {
+                         frameWidth: 32,
+                         frameHeight: 40,
+                         frameCount: 5,
+                         durations: [8, 6, 14, 4, 10],
+                         direction: 0,
+                         loop: false,
+                         priority: 2,
+                         returnToIdle: true
+                     },
+                     'Hurt': {
+                         frameWidth: 64,
+                         frameHeight: 64,
+                         frameCount: 2,
+                         durations: [2, 8],
+                         direction: 0,
+                         loop: false,
+                         priority: 5,
+                         returnToIdle: true
+                     }
+                 };
+             }
+            
+                         startAutomaticBehaviors() {
+                 // Delay the start of automatic behaviors to ensure everything is initialized
+                 setTimeout(() => {
+                     // Random idle animations every 10-30 seconds
+                     setInterval(() => {
+                         if (this.currentAnimation === 'Idle' && !this.sleeping && !this.sitting) {
+                             const randomBehaviors = ['Wake', 'Pose', 'Walk'];
+                             const behavior = randomBehaviors[Math.floor(Math.random() * randomBehaviors.length)];
+                             
+                             if (behavior === 'Walk') {
+                                 this.startWalking();
+                             } else {
+                                 this.playAnimation(behavior);
+                             }
+                         }
+                     }, this.getRandomIdleTime());
+                     
+                     // Occasional sleep cycle (every 2-5 minutes)
+                     setInterval(() => {
+                         if (this.currentAnimation === 'Idle' && !this.isMoving && Math.random() < 0.3) {
+                             this.goToSleep();
+                         }
+                     }, 120000 + Math.random() * 180000); // 2-5 minutes
+                 }, 1000); // Wait 1 second before starting automatic behaviors
+             }
+            
+            getRandomIdleTime() {
+                return 10000 + Math.random() * 20000; // 10-30 seconds
+            }
+            
+            playAnimation(animationName, options = {}) {
+                if (!this.animationData[animationName]) return false;
+                
+                const animation = this.animationData[animationName];
+                const currentPriority = this.animationData[this.currentAnimation]?.priority || 0;
+                
+                // Check if we can interrupt current animation
+                if (currentPriority > animation.priority && !options.force) {
+                    return false;
+                }
+                
+                this.currentAnimation = animationName;
+                this.currentFrame = 0;
+                this.frameTimer = 0;
+                this.updateSpriteDisplay();
+                
+                // Set up return to idle if specified
+                if (animation.returnToIdle) {
+                    const totalDuration = animation.durations.reduce((sum, duration) => sum + duration, 0) * 100;
+                    const repeatCount = animation.repeatCount || 1;
+                    
+                    setTimeout(() => {
+                        if (this.currentAnimation === animationName) {
+                            this.playAnimation('Idle');
+                        }
+                    }, totalDuration * repeatCount);
+                }
+                
+                return true;
+            }
+            
+            startWalking() {
+                if (this.isMoving) return;
+                
+                this.isMoving = true;
+                this.movementDirection = Math.random() < 0.5 ? 1 : -1;
+                this.playAnimation('Walk');
+                
+                // Walk for 2-5 seconds
+                const walkDuration = 2000 + Math.random() * 3000;
+                
+                const walkInterval = setInterval(() => {
+                    this.position += this.movementDirection * 0.5;
+                    
+                    // Bounce off edges
+                    if (this.position <= 10) {
+                        this.position = 10;
+                        this.movementDirection = 1;
+                    } else if (this.position >= 90) {
+                        this.position = 90;
+                        this.movementDirection = -1;
+                    }
+                    
+                    const sprite = document.getElementById('pokemonSprite');
+                    sprite.style.left = this.position + '%';
+                    
+                    // Flip sprite based on direction
+                    sprite.style.transform = \`translateX(-50%) scaleX(\${this.movementDirection})\`;
+                }, 50);
+                
+                setTimeout(() => {
+                    clearInterval(walkInterval);
+                    this.isMoving = false;
+                    this.playAnimation('Idle');
+                    
+                    // Reset sprite flip
+                    const sprite = document.getElementById('pokemonSprite');
+                    sprite.style.transform = 'translateX(-50%)';
+                }, walkDuration);
+            }
+            
+                         goToSleep() {
+                 this.sleeping = true;
+                 this.playAnimation('Sleep', { force: true });
+                 
+                 // Wake up after 30-60 seconds
+                 setTimeout(() => {
+                     this.sleeping = false;
+                     this.playAnimation('Wake');
+                 }, 30000 + Math.random() * 30000);
+             }
+             
+             sit() {
+                 if (this.sleeping) return;
+                 this.sitting = !this.sitting;
+                 this.playAnimation(this.sitting ? 'Sit' : 'Idle', { force: true });
+             }
+             
+             lay() {
+                 if (this.sleeping) return;
+                 this.playAnimation('Laying', { force: true });
+                 
+                 setTimeout(() => {
+                     this.playAnimation('Idle');
+                 }, 5000);
+             }
+            
+                         updateSpriteDisplay() {
+                 const animation = this.animationData[this.currentAnimation];
+                 if (!animation) return;
 
-        // Sprite animation state
-        let currentAnimation = 'Idle';
-        let currentFrame = 0;
-        let frameTimer = 0;
-        let lastUpdateTime = Date.now();
+                 const sprite = document.getElementById('pokemonSprite');
+                 if (!sprite) return;
+                 
+                 // Calculate frame position
+                 const xOffset = -(this.currentFrame * animation.frameWidth);
+                 const yOffset = -(animation.direction || 0) * animation.frameHeight; // Use direction 0 (front-facing)
+                 
+                 const imageUrl = \`\${this.spriteBasePath}/\${this.currentAnimation}-Anim.png\`;
+                 sprite.style.width = animation.frameWidth + 'px';
+                 sprite.style.height = animation.frameHeight + 'px';
+                 sprite.style.backgroundImage = \`url('\${imageUrl}')\`;
+                 sprite.style.backgroundPosition = \`\${xOffset}px \${yOffset}px\`;
+                 sprite.style.backgroundSize = 'auto';
+                 sprite.style.display = 'block';
+                 
+                 console.log('Sprite frame info:', {
+                     animation: this.currentAnimation,
+                     frame: this.currentFrame,
+                     xOffset: xOffset,
+                     yOffset: yOffset,
+                     imageUrl: imageUrl
+                 });
+             }
+            
+            update() {
+                const now = Date.now();
+                const deltaTime = now - this.lastUpdateTime;
+                this.lastUpdateTime = now;
+
+                const animation = this.animationData[this.currentAnimation];
+                if (!animation) return;
+
+                this.frameTimer += deltaTime;
+                const frameDuration = animation.durations[this.currentFrame] * 100;
+
+                if (this.frameTimer >= frameDuration) {
+                    this.currentFrame = (this.currentFrame + 1) % animation.frameCount;
+                    this.frameTimer = 0;
+                    this.updateSpriteDisplay();
+                }
+            }
+        }
         
-        // Animation data for Sneasel
-        const animationData = {
-            'Idle': {
-                frameWidth: 32,
-                frameHeight: 56,
-                frameCount: 7,
-                durations: [40, 1, 2, 4, 2, 2, 1],
-                rows: 8, // Grid layout with 8 directions
-                useRow: 0 // Use the first row (facing down/front)
-            },
-            'Walk': {
-                frameWidth: 32,
-                frameHeight: 48,
-                frameCount: 4,
-                durations: [8, 10, 8, 10],
-                rows: 8,
-                useRow: 0
-            },
-            'Attack': {
-                frameWidth: 72,
-                frameHeight: 80,
-                frameCount: 10,
-                durations: [2, 6, 1, 1, 1, 2, 2, 2, 2, 2],
-                rows: 8,
-                useRow: 0
-            },
-            'Sleep': {
-                frameWidth: 24,
-                frameHeight: 40,
-                frameCount: 2,
-                durations: [30, 35],
-                rows: 1, // Horizontal layout
-                useRow: 0
-            },
-            'Hurt': {
-                frameWidth: 64,
-                frameHeight: 64,
-                frameCount: 2,
-                durations: [2, 8],
-                rows: 8,
-                useRow: 0
-            },
-            'Eat': {
-                frameWidth: 32,
-                frameHeight: 40,
-                frameCount: 4,
-                durations: [6, 8, 6, 8],
-                rows: 8,
-                useRow: 0
-            }
-        };
+        // Initialize animation system
+        let pokemonAnimator;
 
-        function setAnimation(animationName) {
-            if (animationData[animationName] && currentAnimation !== animationName) {
-                currentAnimation = animationName;
-                currentFrame = 0;
-                frameTimer = 0;
-                updateSpriteDisplay();
-            }
-        }
-
-        function updateSpriteDisplay() {
-            const animation = animationData[currentAnimation];
-            if (!animation) return;
-
+        // Initialize when DOM is ready
+        function initializePokemon() {
+            console.log('Initializing Pokemon...');
+            
+            // Check if sprite element exists
             const sprite = document.getElementById('pokemonSprite');
-            const xOffset = -(currentFrame * animation.frameWidth);
-            const yOffset = -(animation.useRow * animation.frameHeight);
+            if (!sprite) {
+                console.error('Pokemon sprite element not found!');
+                return;
+            }
             
-            sprite.style.width = animation.frameWidth + 'px';
-            sprite.style.height = animation.frameHeight + 'px';
-            sprite.style.backgroundImage = \`url('\${window.spriteBasePath}/\${currentAnimation}-Anim.png')\`;
-            sprite.style.backgroundPosition = \`\${xOffset}px \${yOffset}px\`;
-            sprite.style.backgroundSize = \`\${animation.frameWidth * animation.frameCount}px \${animation.frameHeight * animation.rows}px\`;
+            console.log('Sprite element found, creating animator...');
+            pokemonAnimator = new PokemonAnimationSystem('sneasel');
             
-            // Debug logging
-            console.log(\`Animation: \${currentAnimation}, Frame: \${currentFrame}/\${animation.frameCount}, Position: \${xOffset}px \${yOffset}px\`);
+            // Ensure sprite is visible and properly initialized
+            setTimeout(() => {
+                if (pokemonAnimator) {
+                    pokemonAnimator.updateSpriteDisplay();
+                    console.log('Pokemon initialized successfully');
+                } else {
+                    console.error('Pokemon animator not created');
+                }
+            }, 100);
         }
 
-        function updateAnimation() {
-            const now = Date.now();
-            const deltaTime = now - lastUpdateTime;
-            lastUpdateTime = now;
-
-            const animation = animationData[currentAnimation];
-            if (!animation) return;
-
-            frameTimer += deltaTime;
-
-            // Duration is in game ticks, treating each tick as ~100ms for more reasonable timing
-            const frameDuration = animation.durations[currentFrame] * 100;
-
-            if (frameTimer >= frameDuration) {
-                currentFrame = (currentFrame + 1) % animation.frameCount;
-                frameTimer = 0;
-                updateSpriteDisplay();
+        // Legacy function for compatibility
+        function setAnimation(animationName) {
+            if (pokemonAnimator) {
+                pokemonAnimator.playAnimation(animationName);
             }
         }
 
         function interactWithPokemon() {
             vscode.postMessage({ type: 'interact' });
             // Play attack animation briefly
-            setAnimation('Attack');
-            setTimeout(() => {
-                setAnimation('Idle');
-            }, 1000);
+            if (pokemonAnimator) {
+                pokemonAnimator.playAnimation('Attack');
+            }
         }
 
         function feedPokemon() {
             vscode.postMessage({ type: 'feed' });
-            // Play eat animation briefly
-            setAnimation('Eat');
-            setTimeout(() => {
-                setAnimation('Idle');
-            }, 2000);
+            // Play eat animation
+            if (pokemonAnimator) {
+                pokemonAnimator.playAnimation('Eat');
+            }
         }
 
         function playWithPokemon() {
             vscode.postMessage({ type: 'play' });
-            // Play walk animation briefly
-            setAnimation('Walk');
-            setTimeout(() => {
-                setAnimation('Idle');
-            }, 1500);
+            // Start walking or play pose animation
+            if (pokemonAnimator) {
+                if (Math.random() < 0.5) {
+                    pokemonAnimator.startWalking();
+                } else {
+                    pokemonAnimator.playAnimation('Pose');
+                }
+            }
+        }
+
+        // Additional interaction functions
+        function makePokemonSit() {
+            if (pokemonAnimator) {
+                pokemonAnimator.sit();
+            }
+        }
+
+        function makePokemonLay() {
+            if (pokemonAnimator) {
+                pokemonAnimator.lay();
+            }
+        }
+
+        function makePokemonSleep() {
+            if (pokemonAnimator) {
+                pokemonAnimator.goToSleep();
+            }
         }
 
         // Listen for updates from the extension
@@ -756,6 +792,13 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
             // Update pokemon sprite and info
             const sprite = document.getElementById('pokemonSprite');
             sprite.className = \`pokemon-sprite \${pokemon.mood}\`;
+            
+            // Initialize or update animator for different Pokemon
+            if (!pokemonAnimator) {
+                pokemonAnimator = new PokemonAnimationSystem(pokemon.sprite);
+            } else if (pokemon.sprite !== pokemonAnimator.pokemonName) {
+                pokemonAnimator = new PokemonAnimationSystem(pokemon.sprite);
+            }
             
             document.getElementById('pokemonName').textContent = pokemon.name;
             document.getElementById('pokemonLevel').textContent = \`Level \${pokemon.level}\`;
@@ -782,13 +825,28 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
             // Update feed button availability
             const feedButton = document.getElementById('feedButton');
             feedButton.disabled = player.crystals < 10;
+            
+            // Trigger mood-based animations
+            if (pokemon.mood === 'happy' || pokemon.mood === 'excited') {
+                if (Math.random() < 0.3) pokemonAnimator.playAnimation('Pose');
+            } else if (pokemon.mood === 'sad') {
+                if (Math.random() < 0.2) pokemonAnimator.playAnimation('Wake');
+            }
         }
 
         // Start animation loop
-        setInterval(updateAnimation, 16); // ~60 FPS
+        setInterval(() => {
+            if (pokemonAnimator) {
+                pokemonAnimator.update();
+            }
+        }, 16); // ~60 FPS
 
-        // Initialize sprite display
-        updateSpriteDisplay();
+        // Initialize when document is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializePokemon);
+        } else {
+            initializePokemon();
+        }
 
         // Initial load
         vscode.postMessage({ type: 'ready' });
